@@ -7,9 +7,7 @@ public class MenuWarteg : MonoBehaviour
 {
     [SerializeField] private int indexMenu; // Indeks menu
     [SerializeField] private TMPro.TextMeshProUGUI textMesh;
-    [SerializeField] private Transform grabPlayerSajian;
-    [SerializeField] private Transform piringBersih;
-    [SerializeField] private Transform nasiContainer;
+    private Transform grabPlayerSajian;
     private string nameMenu; // Nama menu
     private int persentaseMenu = 100; // Persentase sisa menu
     private List<GameObject> tampilanSetiapRatio; // Daftar tampilan berdasarkan rasio menu
@@ -36,11 +34,11 @@ public class MenuWarteg : MonoBehaviour
     {
         if (grabPlayerSajian.GetChild(0).gameObject.tag == "PiringBersih")
         {
-            piringBersih = grabPlayerSajian.GetChild(0).GetComponent<Transform>(); // Ambil child pertama
+           Transform piringBersih = grabPlayerSajian.GetChild(0).GetComponent<Transform>(); // Ambil child pertama
 
             if (piringBersih != null) // Pastikan ada child di grabPlayerSajian
             {
-                nasiContainer = piringBersih.GetChild(0).GetComponent<Transform>(); // Ambil child pertama dari "PiringBersih"
+                Transform nasiContainer = piringBersih.GetChild(0).GetComponent<Transform>(); // Ambil child pertama dari "PiringBersih"
 
                 if (nasiContainer != null) // Pastikan nasiContainer memiliki child
                 {

@@ -6,7 +6,6 @@ public class GrabObject : MonoBehaviour
     public bool isGrab;
     private Transform reference;
     private Rigidbody rb;
-    private Collider col;
 
     [SerializeField] Vector3 rotasiObjek;
     public void SetIsCanGrab(bool isCanGrab)
@@ -28,7 +27,6 @@ public class GrabObject : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        col = GetComponent<Collider>();
     }
 
     void Update()

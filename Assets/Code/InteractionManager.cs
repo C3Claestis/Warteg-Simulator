@@ -107,7 +107,7 @@ public class InteractionManager
         // Jika interaksi dapat dilakukan dengan MenuWarteg
         if (canGrab && menuWarteg != null)
         {
-            menuWarteg.AmbilItem(10); // Panggil AmbilItem dan kurangi jumlahnya 10
+            menuWarteg.AmbilItem(5); // Panggil AmbilItem dan kurangi jumlahnya 10
         }
     }
 
