@@ -8,6 +8,8 @@ TagManager:
   - AmbilPiring
   - PiringBersih
   - MenuWarteg
+  - PointPesan
+  - PointDudukWarteg
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
+  - Ground
   - 
   - 
   - 
