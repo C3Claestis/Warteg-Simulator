@@ -82,6 +82,7 @@ public class InteractionManager
                 buttonKonfirmasi = hit.collider.GetComponent<Button>();
                 if (buttonKonfirmasi != null)
                 {
+                    textMesh.text = "Konfirmasi Pesanan!";
                     Debug.Log($"Button {buttonKonfirmasi.name} siap untuk diklik.");
                 }
             }
