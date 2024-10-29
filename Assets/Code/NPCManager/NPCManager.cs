@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 public class NPCManager : MonoBehaviour
 {
     [SerializeField] GameObject panelPesan;
+    [SerializeField] TakeOrder takeOrder;
+
     private NavMeshAgent agent;
     private Animator animator;
     private GameObject[] ArraypointPesanMenu;
@@ -20,15 +23,10 @@ public class NPCManager : MonoBehaviour
         animator = GetComponent<Animator>();
 
         ArraypointPesanMenu = GameObject.FindGameObjectsWithTag("PointPesan");
-        ArraypointTempatMakan = GameObject.FindGameObjectsWithTag("PointDudukWarteg");
 
         // Mengambil GameObject acak dari array dan mendapatkan komponen Transform-nya
         GameObject randomPointPesan = ArraypointPesanMenu[Random.Range(0, ArraypointPesanMenu.Length)];
         pointPesanMenu = randomPointPesan.transform;
-
-        // Mengambil GameObject acak dari array dan mendapatkan komponen Transform-nya
-        GameObject randomPointDuduk = ArraypointTempatMakan[Random.Range(0, ArraypointTempatMakan.Length)];
-        pointTempatMakan = randomPointDuduk.transform;
 
         //Mengubah tag untuk tidak ikut terambil
         pointPesanMenu.gameObject.tag = "Untagged";
@@ -59,6 +57,12 @@ public class NPCManager : MonoBehaviour
     {
         if (SudahPesan && !isSudahPesan)
         {
+            ArraypointTempatMakan = GameObject.FindGameObjectsWithTag("PointDudukWarteg");
+
+            // Mengambil GameObject acak dari array dan mendapatkan komponen Transform-nya
+            GameObject randomPointDuduk = ArraypointTempatMakan[Random.Range(0, ArraypointTempatMakan.Length)];
+            pointTempatMakan = randomPointDuduk.transform;
+
             isSudahPesan = true;
             animator.SetBool("IsPesan", false);
             agent.SetDestination(pointTempatMakan.transform.position);
@@ -67,6 +71,19 @@ public class NPCManager : MonoBehaviour
             //Mengubah tag untuk tidak ikut terambil
             pointTempatMakan.gameObject.tag = "Untagged";
             pointPesanMenu.gameObject.tag = "PointPesan";
+
+            //Kirim value name and icon ke tempat duduk
+            GameObject panelpointTempatMakan = pointTempatMakan.transform.GetChild(0).gameObject;
+            panelpointTempatMakan.SetActive(true);
+
+            Transform parentComponent = panelpointTempatMakan.transform.GetChild(0);
+
+            Text namaMenu = parentComponent.transform.GetChild(1).GetComponent<Text>();
+            Image iconMenu = parentComponent.transform.GetChild(2).GetComponent<Image>();
+            Debug.Log("NAMA MENU : " + namaMenu.text);
+
+            namaMenu.text = takeOrder.GetNameMenu();
+            iconMenu.sprite = takeOrder.GetIconMenu();
 
             // Mulai coroutine untuk pengecekan titik makan
             StartCoroutine(CheckArrivalAtPointTempatMakan());

@@ -6,6 +6,7 @@ public class InteractionManager
     private MenuWarteg menuWarteg;
     private GrabObject currentGrabObject;
     private Button buttonKonfirmasi;
+    private GameObject pointPesanan;
 
     private Text textMesh;
     private Transform cam;
@@ -67,6 +68,8 @@ public class InteractionManager
                     playerInteract.SetGrabReference(grabObject);
                 }
             }
+
+            //Take menu warteg
             else if (hit.collider.CompareTag("MenuWarteg"))
             {
                 menuWarteg = hit.collider.GetComponent<MenuWarteg>(); // Menyimpan referensi MenuWarteg
@@ -76,6 +79,8 @@ public class InteractionManager
                     canGrab = true; // Tetapkan canGrab menjadi true untuk menu
                 }
             }
+
+            //Konfirmasi pesanan NPC
             else if (hit.collider.CompareTag("Konfirmasi"))
             {
                 // Mencari Button di objek yang terkena
@@ -84,6 +89,14 @@ public class InteractionManager
                 {
                     textMesh.text = "Konfirmasi Pesanan!";
                     Debug.Log($"Button {buttonKonfirmasi.name} siap untuk diklik.");
+                }
+            }
+
+            else if (hit.collider.CompareTag("PointMakan"))
+            {
+                if (pointPesanan != hit.collider.gameObject)
+                {
+                   
                 }
             }
         }

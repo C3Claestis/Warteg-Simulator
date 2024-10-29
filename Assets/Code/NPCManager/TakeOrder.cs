@@ -8,6 +8,9 @@ public class TakeOrder : MonoBehaviour
     [SerializeField] List<Order> order = new List<Order>();
     [SerializeField] Text Menu;
     [SerializeField] Image iconMenu;
+
+    public string  GetNameMenu() => Menu.text;
+    public Sprite  GetIconMenu() => iconMenu.sprite;
     // Start is called before the first frame update
     void Start()
     {
