@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections.Generic;
 public class InteractionManager
 {
-    private MenuWarteg menuWarteg; // Menambahkan referensi MenuWarteg
+    private MenuWarteg menuWarteg;
     private GrabObject currentGrabObject;
+    private Button buttonKonfirmasi;
+
     private Text textMesh;
     private Transform cam;
     private Transform grabDepan;
@@ -38,7 +40,7 @@ public class InteractionManager
         textMesh.text = string.Empty;
         canGrab = false;
         currentGrabObject = null;
-        menuWarteg = null; // Reset menuWarteg
+        menuWarteg = null;
 
         // Membuat ray dari titik tengah layar menggunakan arah kamera
         Ray ray = new Ray(cam.position, cam.forward);
@@ -72,6 +74,15 @@ public class InteractionManager
                 {
                     textMesh.text = menuWarteg.GetNameMenu(); // Tampilkan nama menu
                     canGrab = true; // Tetapkan canGrab menjadi true untuk menu
+                }
+            }
+            else if (hit.collider.CompareTag("Konfirmasi"))
+            {
+                // Mencari Button di objek yang terkena
+                buttonKonfirmasi = hit.collider.GetComponent<Button>();
+                if (buttonKonfirmasi != null)
+                {
+                    Debug.Log($"Button {buttonKonfirmasi.name} siap untuk diklik.");
                 }
             }
         }
@@ -108,6 +119,15 @@ public class InteractionManager
         if (canGrab && menuWarteg != null)
         {
             menuWarteg.AmbilItem(5); // Panggil AmbilItem dan kurangi jumlahnya 10
+        }
+
+        // Jika buttonKonfirmasi terdeteksi dan ingin dieksekusi
+        if (buttonKonfirmasi != null)
+        {
+            // Eksekusi klik pada buttonKonfirmasi
+            buttonKonfirmasi.onClick.Invoke(); // Menjalankan metode onClick pada button
+            Debug.Log($"Button {buttonKonfirmasi.name} telah diklik.");
+            buttonKonfirmasi = null; // Reset buttonKonfirmasi setelah eksekusi
         }
     }
 

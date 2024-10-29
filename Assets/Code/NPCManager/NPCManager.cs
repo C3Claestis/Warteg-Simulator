@@ -4,30 +4,15 @@ using UnityEngine;
 using UnityEngine.AI;
 public class NPCManager : MonoBehaviour
 {
+    [SerializeField] GameObject panelPesan;
     private NavMeshAgent agent;
-    Animator animator;
-    [SerializeField] GameObject[] ArraypointPesanMenu;
-    [SerializeField] GameObject[] ArraypointTempatMakan;
-    [SerializeField] Transform pointPesanMenu;
-    [SerializeField] Transform pointTempatMakan;
-    [SerializeField] bool isSudahPesan;
+    private Animator animator;
+    private GameObject[] ArraypointPesanMenu;
+    private GameObject[] ArraypointTempatMakan;
+    private Transform pointPesanMenu;
+    private Transform pointTempatMakan;
+    private bool isSudahPesan;
 
-    void SetSudahPesan(bool SudahPesan)
-    {
-        if (SudahPesan && !isSudahPesan)
-        {
-            isSudahPesan = true;
-            animator.SetBool("IsPesan", false);
-            agent.SetDestination(pointTempatMakan.transform.position);
-
-            //Mengubah tag untuk tidak ikut terambil
-            pointTempatMakan.gameObject.tag = "Untagged";
-            pointPesanMenu.gameObject.tag = "PointPesan";
-
-            // Mulai coroutine untuk pengecekan titik makan
-            StartCoroutine(CheckArrivalAtPointTempatMakan());
-        }
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -66,15 +51,27 @@ public class NPCManager : MonoBehaviour
                 Vector3 targetDirection = pointPesanMenu.transform.forward;  // Mendapatkan sumbu depan dari target
                 Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // Smooth rotation
+                panelPesan.SetActive(true);
             }
         }
-
-        if (Input.GetKey(KeyCode.P))
+    }
+    public void SetSudahPesan(bool SudahPesan)
+    {
+        if (SudahPesan && !isSudahPesan)
         {
-            SetSudahPesan(true);
+            isSudahPesan = true;
+            animator.SetBool("IsPesan", false);
+            agent.SetDestination(pointTempatMakan.transform.position);
+            panelPesan.SetActive(false);
+
+            //Mengubah tag untuk tidak ikut terambil
+            pointTempatMakan.gameObject.tag = "Untagged";
+            pointPesanMenu.gameObject.tag = "PointPesan";
+
+            // Mulai coroutine untuk pengecekan titik makan
+            StartCoroutine(CheckArrivalAtPointTempatMakan());
         }
     }
-
     private IEnumerator CheckArrivalAtPointTempatMakan()
     {
         // Loop hingga mencapai pointTempatMakan
