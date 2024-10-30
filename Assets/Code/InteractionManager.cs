@@ -12,8 +12,10 @@ public class InteractionManager
     private Transform cam;
     private Transform grabDepan;
     private Transform grabKiri;
+    private Transform targetPointMakan;
     private float direction;
     private bool canGrab;
+    private bool moveToPointMakan;
 
     private PlayerInteract playerInteract;
     private PlayerMovement playerMovement;
@@ -42,6 +44,7 @@ public class InteractionManager
         canGrab = false;
         currentGrabObject = null;
         menuWarteg = null;
+        moveToPointMakan = false;
 
         // Membuat ray dari titik tengah layar menggunakan arah kamera
         Ray ray = new Ray(cam.position, cam.forward);
@@ -94,9 +97,11 @@ public class InteractionManager
 
             else if (hit.collider.CompareTag("PointMakan"))
             {
-                if (pointPesanan != hit.collider.gameObject)
+                if (grabDepan.childCount != 0)
                 {
-                   
+                    targetPointMakan = hit.collider.transform; // Simpan referensi target PointMakan
+                    moveToPointMakan = true; // Aktifkan flag untuk pindah ke PointMakan
+                    textMesh.text = "Pindahkan ke Point Makan!";
                 }
             }
         }
@@ -142,6 +147,22 @@ public class InteractionManager
             buttonKonfirmasi.onClick.Invoke(); // Menjalankan metode onClick pada button
             Debug.Log($"Button {buttonKonfirmasi.name} telah diklik.");
             buttonKonfirmasi = null; // Reset buttonKonfirmasi setelah eksekusi
+        }
+
+        // Cek kondisi untuk pindah ke PointMakan
+        if (moveToPointMakan && grabDepan.childCount != 0)
+        {
+            GrabObject getObjekInGrab = grabDepan.GetChild(0).GetComponent<GrabObject>();
+
+            // Set referensi baru ke posisi PointMakan tanpa melepaskan objek
+            getObjekInGrab.SetReference(targetPointMakan);
+            getObjekInGrab.transform.position = targetPointMakan.position; // Pindahkan objek ke posisi PointMakan
+            getObjekInGrab.transform.SetParent(null); // Jadikan anak dari target PointMakan
+            getObjekInGrab.gameObject.tag = "Untagged";
+            
+            targetPointMakan.gameObject.SetActive(false); //Matikan referensinya
+
+            moveToPointMakan = false; // Reset flag setelah perpindahan
         }
     }
 
