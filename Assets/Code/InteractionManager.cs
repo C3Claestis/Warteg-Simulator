@@ -95,13 +95,14 @@ public class InteractionManager
                 }
             }
 
+            //Serahkan Makanan Ke Pelanggan
             else if (hit.collider.CompareTag("PointMakan"))
             {
                 if (grabDepan.childCount != 0)
                 {
                     targetPointMakan = hit.collider.transform; // Simpan referensi target PointMakan
                     moveToPointMakan = true; // Aktifkan flag untuk pindah ke PointMakan
-                    textMesh.text = "Pindahkan ke Point Makan!";
+                    textMesh.text = "Sajikan Makanan!";
                 }
             }
         }
@@ -145,7 +146,6 @@ public class InteractionManager
         {
             // Eksekusi klik pada buttonKonfirmasi
             buttonKonfirmasi.onClick.Invoke(); // Menjalankan metode onClick pada button
-            Debug.Log($"Button {buttonKonfirmasi.name} telah diklik.");
             buttonKonfirmasi = null; // Reset buttonKonfirmasi setelah eksekusi
         }
 
@@ -153,13 +153,15 @@ public class InteractionManager
         if (moveToPointMakan && grabDepan.childCount != 0)
         {
             GrabObject getObjekInGrab = grabDepan.GetChild(0).GetComponent<GrabObject>();
-
+            Transform parentTargetMakan = targetPointMakan.parent;
+            
             // Set referensi baru ke posisi PointMakan tanpa melepaskan objek
             getObjekInGrab.SetReference(targetPointMakan);
             getObjekInGrab.transform.position = targetPointMakan.position; // Pindahkan objek ke posisi PointMakan
             getObjekInGrab.transform.SetParent(null); // Jadikan anak dari target PointMakan
             getObjekInGrab.gameObject.tag = "Untagged";
             
+            parentTargetMakan.GetChild(1).gameObject.SetActive(true); //Nyalakan ray untuk makan
             targetPointMakan.gameObject.SetActive(false); //Matikan referensinya
 
             moveToPointMakan = false; // Reset flag setelah perpindahan

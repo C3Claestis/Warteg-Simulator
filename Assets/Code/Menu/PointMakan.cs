@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class PointMakan : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        
+        // Membuat raycast ke arah sumbu z objek
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 1f))
+        {
+            if (hit.collider.CompareTag("Pelanggan"))
+            {
+                NPCManager nPCManager = hit.collider.GetComponent<NPCManager>();
+
+                if (nPCManager != null)
+                {
+                    
+                }
+            }
+
+        }
+
+        // Menggambar garis untuk visualisasi raycast di Scene view
+        Debug.DrawRay(transform.position, transform.forward * 1f, Color.red);
     }
 }

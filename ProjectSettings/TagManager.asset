@@ -12,6 +12,8 @@ TagManager:
   - PointDudukWarteg
   - Konfirmasi
   - PointMakan
+  - PointBayar
+  - Pelanggan
   layers:
   - Default
   - TransparentFX
