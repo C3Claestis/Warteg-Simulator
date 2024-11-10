@@ -9,16 +9,15 @@ public class PlayerInteract : MonoBehaviour
     [Header("Text Object Raycast")][SerializeField] private Text textMesh;
     [Header("Referensi Grab Raycast")][SerializeField] Transform grabDepan;
     [Header("Referensi Grab Raycast")][SerializeField] Transform grabKiri;
-    private PlayerMovement playerMovement; // Referensi ke Playermove
+
     private PlayerInput inputActions;
     private InteractionManager interactionManager;
 
     void Awake()
     {
         // Inisialisasi input actions
-        playerMovement = GetComponent<PlayerMovement>();
         inputActions = new PlayerInput();
-        interactionManager = new InteractionManager(direction, cam, textMesh, this, playerMovement, grabDepan, grabKiri);
+        interactionManager = new InteractionManager(direction, cam, textMesh, this, grabDepan, grabKiri);
         SetInteractionManager(interactionManager);
         interactionManager.SetPlayerInteract(this);
     }
@@ -29,6 +28,7 @@ public class PlayerInteract : MonoBehaviour
         inputActions.Player.Enable();
         inputActions.Player.Object.performed += OnInteractObject;
         inputActions.Player.SwitchPlate.performed += OnSwitchGrabPosition;
+        
     }
 
     void OnDisable()
@@ -63,6 +63,7 @@ public class PlayerInteract : MonoBehaviour
     {
         interactionManager.SwitchGrabPosition();
     }
+    
     public void SetGrabReference(GrabObject grabObject)
     {
         grabObject.SetReference(grabDepan);

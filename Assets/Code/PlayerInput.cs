@@ -71,6 +71,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenBook"",
+                    ""type"": ""Button"",
+                    ""id"": ""4f8ba517-acdb-458b-a389-fa3c472a1782"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""SwitchPlate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9307366-b1c2-46be-866b-e30cb083453e"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenBook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +205,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Object = m_Player.FindAction("Object", throwIfNotFound: true);
         m_Player_SwitchPlate = m_Player.FindAction("SwitchPlate", throwIfNotFound: true);
+        m_Player_OpenBook = m_Player.FindAction("OpenBook", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -251,6 +272,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Object;
     private readonly InputAction m_Player_SwitchPlate;
+    private readonly InputAction m_Player_OpenBook;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -260,6 +282,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Object => m_Wrapper.m_Player_Object;
         public InputAction @SwitchPlate => m_Wrapper.m_Player_SwitchPlate;
+        public InputAction @OpenBook => m_Wrapper.m_Player_OpenBook;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -284,6 +307,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SwitchPlate.started += instance.OnSwitchPlate;
             @SwitchPlate.performed += instance.OnSwitchPlate;
             @SwitchPlate.canceled += instance.OnSwitchPlate;
+            @OpenBook.started += instance.OnOpenBook;
+            @OpenBook.performed += instance.OnOpenBook;
+            @OpenBook.canceled += instance.OnOpenBook;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -303,6 +329,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SwitchPlate.started -= instance.OnSwitchPlate;
             @SwitchPlate.performed -= instance.OnSwitchPlate;
             @SwitchPlate.canceled -= instance.OnSwitchPlate;
+            @OpenBook.started -= instance.OnOpenBook;
+            @OpenBook.performed -= instance.OnOpenBook;
+            @OpenBook.canceled -= instance.OnOpenBook;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -327,5 +356,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnObject(InputAction.CallbackContext context);
         void OnSwitchPlate(InputAction.CallbackContext context);
+        void OnOpenBook(InputAction.CallbackContext context);
     }
 }
