@@ -11,9 +11,7 @@ public class NPCManager : MonoBehaviour
 
     private NavMeshAgent agent;
     private Animator animator;
-    private GameObject[] ArraypointPesanMenu;
     private GameObject[] ArraypointTempatMakan;
-    private GameObject[] ArraypointTempatBayar;
     private Transform pointPesanMenu;
     private Transform pointTempatMakan;
     private Transform pointTempatBayar;
@@ -27,7 +25,6 @@ public class NPCManager : MonoBehaviour
         animator = GetComponent<Animator>();
 
         pointPesanMenu = SearchPoint("PointPesan");
-        pointTempatBayar = SearchPoint("PointBayar");
 
         if (pointPesanMenu != null)
         {
@@ -128,12 +125,9 @@ public class NPCManager : MonoBehaviour
                 animator.SetBool("IsSit", true); // Mulai animasi duduk makan
                 animator.SetBool("IsWalk", false); // Menghentikan animasi berjalan
 
-                isSedangMakan = true; //Nyalakan kondisi sedang makan
-
                 // Mulai rotasi bertahap ke arah titik makan
                 yield return StartCoroutine(RotateTowards(pointTempatMakan.forward));
 
-                StartCoroutine(RandomWaktuMakan());
                 // Keluar dari coroutine setelah mencapai tujuan
                 yield break;
             }
@@ -178,6 +172,8 @@ public class NPCManager : MonoBehaviour
     private IEnumerator StandToExit()
     {
         animator.SetBool("IsSit", false);
+        pointTempatBayar = SearchPoint("PointBayar");
+        pointTempatMakan.gameObject.tag = "PointPesan";
         yield return new WaitForSeconds(3f);
         animator.SetBool("IsWalk", true);
         //Move to target
@@ -186,5 +182,15 @@ public class NPCManager : MonoBehaviour
         isSudahMakan = true;
         // Logic keluar setelah makan bisa ditambahkan di sini
         yield return null;
+    }
+
+    public void SetSedangMakan(bool isSedangMakan)
+    {
+        this.isSedangMakan = isSedangMakan;
+
+        if (isSedangMakan)
+        {
+            StartCoroutine(RandomWaktuMakan());
+        }
     }
 }

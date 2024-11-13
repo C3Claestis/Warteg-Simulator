@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PointMakan : MonoBehaviour
 {
-    
     void Update()
     {
         // Membuat raycast ke arah sumbu z objek
@@ -16,7 +15,8 @@ public class PointMakan : MonoBehaviour
 
                 if (nPCManager != null)
                 {
-                    
+                    nPCManager.SetSedangMakan(true);
+                    gameObject.SetActive(false);
                 }
             }
 

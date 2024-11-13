@@ -153,7 +153,7 @@ public class InteractionManager
         grabObject.transform.position = targetPointMakan.position;
         grabObject.transform.SetParent(null);
         grabObject.gameObject.tag = "Untagged";
-
+        
         targetPointMakan.parent.GetChild(1).gameObject.SetActive(true);
         targetPointMakan.gameObject.SetActive(false);
         
